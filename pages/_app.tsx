@@ -1,7 +1,64 @@
-import '../styles/globals.css'
-import type { AppProps } from 'next/app'
+// pages/_app.tsx
+/* eslint-disable react/jsx-props-no-spreading */
+import initAuth from '../services/firebase/initAuth'
+import { FC, useEffect, ReactElement, ReactNode } from 'react';
+import { CssBaseline } from '@mui/material';
+import { ThemeProvider } from '@mui/material/styles';
+import type { NextPage } from 'next'
+import { AppProps } from 'next/app';
+import Head from 'next/head';
+import theme from '@styles/theme';
+import DateFnsAdapter from '@mui/lab/AdapterMoment';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import 'stream-chat-react/dist/css/index.css';
+import '../styles/chatStyles.css'
 
-function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+
+type NextPageWithLayout = NextPage & {
+  getLayout?: (page: ReactElement) => ReactNode
 }
-export default MyApp
+
+type AppPropsWithLayout = AppProps & {
+  Component: NextPageWithLayout
+}
+
+
+// Initialise FireBase Auth
+initAuth()
+
+const MyApp: FC<AppPropsWithLayout> = ({ Component, pageProps }: AppPropsWithLayout) => {
+  useEffect(() => {
+    // Remove the server-side injected CSS.
+    const jssStyles = document.querySelector('#jss-server-side');
+    if (jssStyles) {
+      jssStyles?.parentElement?.removeChild(jssStyles);
+    }
+  }, []);
+
+  // Use the layout defined at the page level, if available
+  const getLayout = Component.getLayout ?? ((page) => page)
+  return (
+    <ThemeProvider theme={theme}>
+      <LocalizationProvider dateAdapter={DateFnsAdapter}>
+        <CssBaseline />
+        { getLayout(<Component {...pageProps} />)}
+     </LocalizationProvider>
+    </ThemeProvider>
+    )
+
+  // return getLayout(
+  //   <>
+  //     <Head>
+  //       <title>TITLEBLOC</title>
+  //       <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
+  //     </Head>
+  //     <ThemeProvider theme={theme}>
+  //       {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+  //       <CssBaseline />
+  //       <Component {...pageProps} />
+  //     </ThemeProvider>
+  //   </>
+  // );
+};
+
+export default MyApp;
