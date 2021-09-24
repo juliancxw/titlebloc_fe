@@ -31,6 +31,7 @@ import {
   withAuthUserTokenSSR,
   AuthAction,
 } from 'next-firebase-auth'
+import { getFirestore, doc, setDoc, getDoc, addDoc, collection, onSnapshot, query } from "firebase/firestore"
 
 import AppLayout from '../../components/appLayout'
 import ProjectType from '../../components/createProjectForms/projectType'
@@ -50,10 +51,6 @@ const CreateProject = () => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    // eslint-disable-next-line no-console
-    const email = data.get('email')
-    const password = data.get('password')
     try {
       const auth = await getAuth();
       const user = await signInWithEmailAndPassword(auth, email, password);

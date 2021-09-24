@@ -72,7 +72,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export const AppHeader = ({mobileMode, setMobileMode, mobileMenuOpen, setMobileMenuOpen}: drawerProps) => {
+export const AppHeader = ({mobileMode, mobileMenuOpen, setMobileMenuOpen}: drawerProps) => {
   const theme = useTheme();
   const [profileMenuAnchorEl, setProfileMenuAnchorEl] = useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState<null | HTMLElement>(null);
