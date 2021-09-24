@@ -10,7 +10,7 @@ import {
   Window, 
   useChatContext,
 } from 'stream-chat-react'; 
-
+import { Box } from '@mui/material'
 import {
   useAuthUser,
   withAuthUser,
@@ -18,16 +18,7 @@ import {
   AuthAction,
 } from 'next-firebase-auth'
 import { ChannelContainer } from '../components/chatComponents/channelContainer'
-
-import type {
-  TeamAttachmentType,
-  TeamChannelType,
-  TeamCommandType,
-  TeamEventType,
-  TeamMessageType,
-  TeamReactionType,
-  TeamUserType,
-} from './app';
+import { CustomMessageInput } from '../components/chatComponents/customMessageInput'
 
 
 
@@ -39,7 +30,13 @@ export type MessageType = Record<string, unknown>;
 export type ReactionType = Record<string, unknown>;
 export type UserType = { image?: string };
 
-
+export type TeamAttachmentType = Record<string, unknown>;
+export type TeamChannelType = Record<string, unknown>;
+export type TeamCommandType = LiteralStringForUnion;
+export type TeamEventType = Record<string, unknown>;
+export type TeamMessageType = Record<string, unknown>;
+export type TeamReactionType = Record<string, unknown>;
+export type TeamUserType = { image?: string };
 
 const Page = () => {
 
@@ -57,17 +54,21 @@ const Page = () => {
 >();
 
   return (
-    <div>
-      <Channel> 
+    <>
+      {/* <Channel
+        Input={CustomMessageInput}
+      > 
           <Window> 
             <ChannelHeader /> 
             <MessageList /> 
             <MessageInput Input={MessageInputFlat} /> 
           </Window> 
           <Thread /> 
-        </Channel> 
-      {/* <ChannelContainer/> */}
-    </div>
+        </Channel>  */}
+        
+          <ChannelContainer/>
+        
+    </>
   )
 }
 

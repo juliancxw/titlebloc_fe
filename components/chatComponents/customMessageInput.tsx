@@ -1,4 +1,4 @@
-import { useCallback, useContext, useState, FC, ChangeEventHandler } from 'react';
+import { useCallback, useContext, useState } from 'react';
 import { ImageDropzone } from 'react-file-utils';
 import {
   ChatAutoComplete,
@@ -11,7 +11,7 @@ import {
 } from 'stream-chat-react';
 
 
-import { TTypingIndicator } from './typingIndicator';
+import { TeamTypingIndicator } from './customTypingIndicator';
 
 import { GiphyContext } from './channelInner';
 
@@ -26,20 +26,20 @@ import {
 } from './assets';
 
 import type {
-  AttachmentType,
-  ChannelType,
-  CommandType,
-  EventType,
-  MessageType,
-  ReactionType,
-  UserType,
+  TeamAttachmentType,
+  TeamChannelType,
+  TeamCommandType,
+  TeamEventType,
+  TeamMessageType,
+  TeamReactionType,
+  TeamUserType,
 } from '../../pages/app';
 
 export type Props = MessageInputProps & {
   pinsOpen?: boolean;
 };
 
-export const MessageInput: FC<Props> = (props) => {
+export const TeamMessageInput: React.FC<Props> = (props) => {
   const { pinsOpen } = props;
 
   const { giphyState, setGiphyState } = useContext(GiphyContext);
@@ -51,23 +51,23 @@ export const MessageInput: FC<Props> = (props) => {
     multipleUploads,
     thread,
   } = useChannelStateContext<
-    AttachmentType,
-    ChannelType,
-    CommandType,
-    EventType,
-    MessageType,
-    ReactionType,
-    UserType
+    TeamAttachmentType,
+    TeamChannelType,
+    TeamCommandType,
+    TeamEventType,
+    TeamMessageType,
+    TeamReactionType,
+    TeamUserType
   >();
 
   const { client } = useChatContext<
-    AttachmentType,
-    ChannelType,
-    CommandType,
-    EventType,
-    MessageType,
-    ReactionType,
-    UserType
+    TeamAttachmentType,
+    TeamChannelType,
+    TeamCommandType,
+    TeamEventType,
+    TeamMessageType,
+    TeamReactionType,
+    TeamUserType
   >();
 
   const [boldState, setBoldState] = useState(false);
@@ -99,16 +99,16 @@ export const MessageInput: FC<Props> = (props) => {
   };
 
   const messageInput = useMessageInputContext<
-    AttachmentType,
-    ChannelType,
-    CommandType,
-    EventType,
-    MessageType,
-    ReactionType,
-    UserType
+    TeamAttachmentType,
+    TeamChannelType,
+    TeamCommandType,
+    TeamEventType,
+    TeamMessageType,
+    TeamReactionType,
+    TeamUserType
   >();
 
-  const onChange: ChangeEventHandler<HTMLTextAreaElement> = useCallback(
+  const onChange: React.ChangeEventHandler<HTMLTextAreaElement> = useCallback(
     (event) => {
       const { value } = event.target;
 

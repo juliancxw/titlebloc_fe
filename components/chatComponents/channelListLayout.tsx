@@ -8,7 +8,7 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
-  ListSubHeader,
+  ListSubheader,
   Divider,
   Collapse,
   Typography,
@@ -42,7 +42,7 @@ const ChannelList: FC<ChannelListProps> = (props) => {
     return (
       <div className='team-channel-list'>
         <p className='team-channel-list__message loading'>
-          {type === 'team' ? 'Channels' : 'Messages'} loading....
+          {type === 'team' ? 'Public Channels' : 'Messages'} loading....
         </p>
       </div>
     );
@@ -52,9 +52,9 @@ const ChannelList: FC<ChannelListProps> = (props) => {
     <Box>
           
       <List dense='true' disablePadding sx={{maxWidth:'240px', overflow:'hidden'}}>
-        <ListSubHeader>
-        {type === 'team' ? 'Channels' : 'Direct Messages'}
-        </ListSubHeader>
+        <ListSubheader>
+        {type === 'team' ? 'Public Channels' : 'Direct Messages'}
+        </ListSubheader>
         {children}
       </List>
       

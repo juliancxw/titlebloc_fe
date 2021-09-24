@@ -15,8 +15,9 @@
 }
 
 .str-chat-channel {
-  height: 100%;
+  max-height: calc(100vh - 64px);
 }
+
 
 .str-chat__load-more-button {
   display: none;
@@ -35,3 +36,15 @@
   cursor: pointer;
 }
 
+@import url(chatStyles/channelContainer.css);
+@import url(chatStyles/channelHeader.css);
+@import url(chatStyles/channelSearch.css);
+@import url(chatStyles/createChannel.css);
+@import url(chatStyles/customMessageInput.css);
+@import url(chatStyles/customMessageLayout.css);
+@import url(chatStyles/customTypingIndicator.css);
+@import url(chatStyles/editChannel.css);
+@import url(chatStyles/emptyChannel.css);
+@import url(chatStyles/pinnedMessageList.css);
+@import url(chatStyles/threadMessageInput.css);
+@import url(chatStyles/userList.css);

@@ -35,7 +35,7 @@ import {
 import AppLayout from '../../components/appLayout'
 import ProjectType from '../../components/createProjectForms/projectType'
 import PropertyType from '../../components/createProjectForms/propertyType'
-import OwnerDetails from '../../components/createProjectForms/projectDetails'
+import ProjectDetails from '../../components/createProjectForms/projectDetails'
 
 
 const CreateProject = () => {
@@ -46,6 +46,7 @@ const CreateProject = () => {
   const [streetAddress, setStreetAddress] = useState<string | null>(null);
   const [unitNo, setUnitNo] = useState<string | null>(null);
   const [postalCode, setPostalCode] = useState<string | null>(null);
+  const [projectPeriod, setProjectPeriod ] = useState<DateRange<Date>>([null, null]);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -146,7 +147,12 @@ const CreateProject = () => {
             <Paper elevation={1} sx={{ p: 3, borderRadius:"20px" }}>
               <Typography variant='subtitle1'>PROJECT DETAILS:</Typography>
               <Divider/>
-              <OwnerDetails/>
+              <ProjectDetails
+              {...{
+                projectPeriod,
+                setProjectPeriod
+              }}
+              />
             </Paper>
           </Grid>
           <Grid item xs={12} md={4}>

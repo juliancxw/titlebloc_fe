@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react'
-import {Avatar, Button, CssBaseline, TextField, InputAdornment, FormControlLabel, Checkbox, Link, Grid, Box, Typography, Container } from '@mui/material'
+import { useEffect, useState, useCallback, Fragment } from 'react'
+import {Avatar, Snackbar, Button, IconButton, CssBaseline, TextField, InputAdornment, FormControlLabel, Checkbox, Link, Grid, Box, Typography, Container } from '@mui/material'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import CloseIcon from '@mui/icons-material/Close';
 import { createTheme, makeStyles } from '@mui/material/styles';
 import { getAuth, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
-import { getFirestore, doc, setDoc, addDoc, collection } from "firebase/firestore"
+import { getFirestore, doc, setDoc, getDoc, addDoc, collection, onSnapshot, query } from "firebase/firestore"
 import {
   useAuthUser,
   withAuthUser,
@@ -11,7 +12,8 @@ import {
   AuthAction,
 } from 'next-firebase-auth'
 import { usePrependedMessagesCount } from 'stream-chat-react';
-
+import debounce from "lodash.debounce"
+import { createImmediatelyInvokedArrowFunction } from 'typescript';
 
 
 
@@ -21,6 +23,43 @@ const Register = () => {
   const [username, setUsername] = useState()
   const [firstName, setFirstName] = useState()
   const [lastName, setLastName] = useState()
+  const [usernameChecked, setUsernameChecked] = useState()
+  const [usernameResultColor, setUsernameResultColor] = useState()
+  const [usernameResultText, setUsernameResultText] = useState()
+  const [warningOpen, setWarningOpen] = useState(false);
+  const [warning, setWarning] = useState();
+  
+
+
+  const handleWarning = (message) => {
+    setWarningOpen(true);
+    setWarning(message)
+  };
+
+  const handleWarningClose = (
+    event: React.SyntheticEvent | React.MouseEvent,
+    reason?: string,
+  ) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setWarningOpen(false);
+  };
+
+  const warningAction = (
+    <Fragment>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleWarningClose}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </Fragment>
+  );
+
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -43,12 +82,12 @@ const Register = () => {
       });
     }
     catch(error) {
-      console.log(error)
+      handleWarning(error.message)
     }
   };
 
-  const handleUsernameChange = () => {
-
+  const handleUsernameChange = (e) => {
+    setUsername(e.target.value)
   }
   const handleFirstNameChange = (e) => {
     setFirstName(e.target.value)
@@ -57,11 +96,49 @@ const Register = () => {
     setLastName(e.target.value)
  
   }
+
+
   useEffect(()=>{
-    if (firstName && lastName){
+    if (firstName && lastName && !username){
       setUsername(firstName.toLowerCase() + lastName.toLowerCase())
     }
   },[firstName, lastName])
+
+  const checkUsername = async (username) => {
+    if(username){
+      const db = await getFirestore()
+      const usernamesRef = doc(db, 'usernames', username)
+      const docSnap = await getDoc(usernamesRef)
+      if (docSnap._document) {
+        setUsernameChecked(true)
+        setUsernameResultColor("error")
+        setUsernameResultText("Username Exists, Please choose another.")
+      }
+      else {
+        setUsernameChecked(true)
+        setUsernameResultColor("success")
+        setUsernameResultText("Username available!")
+      }
+    }
+    else {
+      setUsernameChecked(false)
+      setUsernameResultColor(null)
+      setUsernameResultText(null)
+    }
+  }
+
+  const debouncedCheck = useCallback(
+    debounce(async (username: string) => {
+      await checkUsername(username)}, 1000),
+    [],
+  );
+
+  //Check if username is available
+  useEffect(()=>{
+    if (username) {
+      debouncedCheck(username);
+    }
+  }, [username, debouncedCheck])
 
   return (
     <Container component="main" maxWidth="xs">
@@ -119,6 +196,9 @@ const Register = () => {
             </Grid>
             <Grid item xs={12}>
               <TextField
+                focused={usernameChecked}
+                color={usernameResultColor}
+                helperText={usernameResultText}
                 required
                 fullWidth
                 id="Username"
@@ -161,6 +241,13 @@ const Register = () => {
           </Grid>
         </Box>
       </Box>
+      <Snackbar
+        open={warningOpen}
+        autoHideDuration={6000}
+        onClose={handleWarningClose}
+        message={warning}
+        action={warningAction}
+      />
     </Container>
   );
 }

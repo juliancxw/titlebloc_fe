@@ -6,11 +6,15 @@ import DateRangePicker, { DateRange } from '@mui/lab/DateRangePicker';
 import AdapterDateFns from '@mui/lab/AdapterMoment';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 
+type Props = {
+  projectPeriod: DateRange<Date>;
+  setProjectPeriod: React.Dispatch<React.SetStateAction<DateRange<Date>>>;
+};
 
 
 const theme = createTheme();
 
-export default function ProjectDetails() {
+export default function ProjectDetails({projectPeriod, setProjectPeriod}:Props) {
   const [value, setValue] = useState<DateRange<Date>>([null, null]);
 
   return (
@@ -19,9 +23,9 @@ export default function ProjectDetails() {
       <DateRangePicker
         startText="Tartgeted Start Date"
         endText="Targeted End Date"
-        value={value}
+        value={projectPeriod}
         onChange={(newValue) => {
-          setValue(newValue);
+          setProjectPeriod(newValue);
         }}
         inputFormat="DD/MM/YYYY"
         renderInput={(startProps, endProps) => (
@@ -35,50 +39,7 @@ export default function ProjectDetails() {
         )}
       />
 
-      <Grid container spacing={2}>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            autoComplete="fname"
-            name="firstName"
-            required
-            fullWidth
-            id="firstName"
-            label="First Name"
-            autoFocus
-          />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            required
-            fullWidth
-            id="lastName"
-            label="Last Name"
-            name="lastName"
-            autoComplete="lname"
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <TextField
-            required
-            fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <TextField
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="new-password"
-          />
-        </Grid>
-      </Grid>
+      
     </Box>
   );
 }

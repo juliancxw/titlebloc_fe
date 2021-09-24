@@ -1,3 +1,4 @@
+import { FC } from 'react'
 import { ChannelList, ChannelListProps, LoadMorePaginator, LoadMorePaginatorProps } from 'stream-chat-react';
 import { ChannelListLayout } from './channelListLayout'
 import { ChannelListPreview } from './channelListPreview'
@@ -20,7 +21,7 @@ type Props = {
 };
 
 const customChannelTeamFilter = (channels: Channel[]) => {
-  return channels.filter((channel) => channel.type === 'team');
+  return channels.filter((channel) => channel.type === 'public');
 };
 const customChannelMessagingFilter = (channels: Channel[]) => {
   return channels.filter((channel) => channel.type === 'messaging');
@@ -30,7 +31,7 @@ export const ChannelListContainer: FC<Props> = (props) => {
   const { userId } = props;
 
   const filters: ChannelFilters[] = [
-    { type: 'team', members: { $in: [userId] } },
+    { type: 'public', members: { $in: [userId] } },
     { type: 'messaging', members: { $in: [userId] } },
   ];
   const options = { state: true, watch: true, presence: true};

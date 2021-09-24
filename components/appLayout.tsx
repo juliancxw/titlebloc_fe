@@ -116,6 +116,8 @@ const AppLayout: React.FC = ({children}: LayoutProps) => {
           }}/>
         </Box>
         <Box sx={{
+          // display:'flex',
+          // flexDirection:'column',
           borderRadius: '25px',
           flexGrow: 1,
           padding: 0,

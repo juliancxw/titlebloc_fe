@@ -13,7 +13,7 @@ import {
   Button,
 } from '@mui/material'
 import { Avatar, ChannelPreviewUIComponentProps, useChatContext } from 'stream-chat-react';
-import { TypingIndicator } from './TypingIndicator';
+import { TeamTypingIndicator } from './customTypingIndicator';
 import Link from 'next/link'
 
 
@@ -66,7 +66,7 @@ export const ChannelListPreview: FC<Props> = (props) => {
             size={24}
           />
           <ListItemText>{member?.user?.name || member?.user?.id || defaultName}</ListItemText>
-          <TypingIndicator type='list' />
+          <TeamTypingIndicator type='list' />
         </>
       );
     }
@@ -104,7 +104,7 @@ export const ChannelListPreview: FC<Props> = (props) => {
 
   return (
     <ListItem disablePadding>
-      <Link href="/demo">
+      <Link href="/app">
       <ListItemButton
       selected={channel?.id === activeChannel?.id}
       onClick={(e)=>{

@@ -1,38 +1,36 @@
-import { FC } from 'react'
 import { useChatContext, useTypingContext } from 'stream-chat-react';
 
-
 import type {
-  AttachmentType,
-  ChannelType,
-  CommandType,
-  EventType,
-  MessageType,
-  ReactionType,
-  UserType,
-} from './channelListContainer';
+  TeamAttachmentType,
+  TeamChannelType,
+  TeamCommandType,
+  TeamEventType,
+  TeamMessageType,
+  TeamReactionType,
+  TeamUserType,
+} from '../../pages/app';
 
-export const TypingIndicator: FC<{ type: string }> = (props) => {
+export const TeamTypingIndicator: React.FC<{ type: string }> = (props) => {
   const { type } = props;
 
   const { client } = useChatContext<
-    AttachmentType,
-    ChannelType,
-    CommandType,
-    EventType,
-    MessageType,
-    ReactionType,
-    UserType
+    TeamAttachmentType,
+    TeamChannelType,
+    TeamCommandType,
+    TeamEventType,
+    TeamMessageType,
+    TeamReactionType,
+    TeamUserType
   >();
 
   const { typing } = useTypingContext<
-    AttachmentType,
-    ChannelType,
-    CommandType,
-    EventType,
-    MessageType,
-    ReactionType,
-    UserType
+    TeamAttachmentType,
+    TeamChannelType,
+    TeamCommandType,
+    TeamEventType,
+    TeamMessageType,
+    TeamReactionType,
+    TeamUserType
   >();
 
   if (!client || !typing) return null;
