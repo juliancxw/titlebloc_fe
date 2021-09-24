@@ -2,45 +2,40 @@ import { useState, Fragment, ChangeEvent } from 'react';
 import {
   Box,
   Typography,
-  Stepper,
-  Step,
-  StepLabel,
   Button,
-  Link,
-  Container,
   Paper,
   Grid,
   TextField,
   Divider,
 } from '@mui/material'
-import { makeStyles, useTheme, Theme, createStyles } from '@mui/material/styles';
-import {  Mail as MailIcon,
-  MoveToInbox as InboxIcon,
-  Public as PublicIcon,
-  AssignmentIndOutlined as AssignmentIndOutlinedIcon,
-  HomeWorkOutlined as HomeWorkOutlinedIcon,
-  NextWeekOutlined as NextWeekOutlinedIcon,
-  WorkOutlineOutlined as WorkOutlineOutlinedIcon,
-  ArchiveOutlined as ArchiveOutlinedIcon,
-  QuestionAnswerOutlined as QuestionAnswerOutlinedIcon,
-  ExpandLess, ExpandMore,
-} from '@mui/icons-material/';
+import { useTheme } from '@mui/material/styles';
+import { useChatContext } from 'stream-chat-react';
+import { useRouter } from 'next/router'
 import {
-  useAuthUser,
   withAuthUser,
-  withAuthUserTokenSSR,
   AuthAction,
 } from 'next-firebase-auth'
 import { getFirestore, doc, setDoc, getDoc, addDoc, collection, onSnapshot, query } from "firebase/firestore"
-
+import moment from 'moment';
 import AppLayout from '../../components/appLayout'
 import ProjectType from '../../components/createProjectForms/projectType'
 import PropertyType from '../../components/createProjectForms/propertyType'
 import ProjectDetails from '../../components/createProjectForms/projectDetails'
+import { UserList } from '../../components/chatComponents/userList';
+
 
 
 const CreateProject = () => {
   const theme = useTheme();
+  const { client, setActiveChannel } = useChatContext<
+    TeamAttachmentType,
+    TeamChannelType,
+    TeamCommandType,
+    TeamEventType,
+    TeamMessageType,
+    TeamReactionType,
+    TeamUserType
+  >();
   const [projectType, setProjectType] = useState<string | null>(null);
   const [propertyType, setPropertyType] = useState<string | null>(null);
   const [buildingNo, setBuildingNo] = useState<string | null>(null);
@@ -48,6 +43,62 @@ const CreateProject = () => {
   const [unitNo, setUnitNo] = useState<string | null>(null);
   const [postalCode, setPostalCode] = useState<string | null>(null);
   const [projectPeriod, setProjectPeriod ] = useState<DateRange<Date>>([null, null]);
+  const [selectedUsers, setSelectedUsers] = useState<string[] | undefined>([client.userID || '']);
+  const router = useRouter()
+
+
+  const createProject = async (event: { preventDefault: () => void }) => {
+    event.preventDefault();
+    const convertedProjectPeriod = moment().toString(projectPeriod)
+    if (!selectedUsers?.length) return;
+    let projectId
+    const addressArray = streetAddress.split(" ")
+    const addressSplice = addressArray.shift()
+    const addressTrimed = addressArray.join(" ")
+    const addressShort = addressSplice + " " + addressTrimed.match(/\b(\w)/g).join(' ')
+    const projectSlug = buildingNo +" " + addressShort +" "+ unitNo
+    try {
+      const db = await getFirestore()
+      console.log(db)
+      projectId= await addDoc(collection(db, "projects"), {
+        
+        projectType: projectType,
+        propertyType: propertyType,
+        buildingNo: buildingNo,
+        streetAddress: streetAddress,
+        unitNo: unitNo,
+        postalCode: postalCode,
+        fullAddress: `${buildingNo} ${streetAddress} ${unitNo} SINGAPORE ${postalCode}`, 
+        projectPeriod: convertedProjectPeriod,
+        projectTitle: `${projectType} TO ${propertyType} AT ${buildingNo} ${streetAddress} ${unitNo} SINGAPORE ${postalCode}`,
+        projectSlug: projectSlug,
+      });
+   
+    }
+    catch(error) {
+      console.log(error)
+    } 
+    console.log(projectId.id)
+  
+    try {
+      const newChannel = await client.channel("project",  {
+        members: selectedUsers,
+        channelType: 'project',
+        name: `${projectType} TO ${propertyType} AT ${buildingNo} ${streetAddress} ${unitNo} SINGAPORE ${postalCode}`,
+        projectId: projectId.id,
+        projectSlug: projectSlug,
+        projectType: projectType,
+      });
+  
+      await newChannel.watch();
+      setSelectedUsers([client.userID || '']);
+      setActiveChannel(newChannel);
+      router.push('/app')
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -143,9 +194,21 @@ const CreateProject = () => {
         </Box>
       </Paper>
       <Box my={3} mx={3}>
-        <Grid container spacing={3}>
+        <Grid
+          container spacing={3}
+          direction="row"
+          justifyContent="center"
+          alignItems="stretch"
+        >
           <Grid item xs={12} md={8}>
             <Paper elevation={1} sx={{ p: 3, borderRadius:"20px" }}>
+              <Typography variant='subtitle1'>PROJECT COLLABORATORS:</Typography>
+              <Divider/>
+              <UserList {...{setSelectedUsers}}/>
+            </Paper>
+          </Grid>
+          <Grid item xs={12} md={4} >
+            <Paper elevation={1} sx={{ p: 3, borderRadius:"20px", height:'100%' }}>
               <Typography variant='subtitle1'>PROJECT DETAILS:</Typography>
               <Divider/>
               <ProjectDetails
@@ -156,20 +219,16 @@ const CreateProject = () => {
               />
             </Paper>
           </Grid>
-          <Grid item xs={12} md={4}>
-            <Paper elevation={1} sx={{ p: 3, borderRadius:"20px" }}>
-              <Typography variant='subtitle1'>PROJECT DOCUMENTS:</Typography>
-              <Divider/>
-            </Paper>
-          </Grid>
         </Grid>
-        <Button
-        variant="contained"
-        // onClick={handleNext}
-        sx={{ mt: 3, ml: 1 }}
-        >
-        Create
-      </Button>
+        <Box mx={3} sx={{textAlign:'right'}}>
+          <Button
+            variant="contained"
+            onClick={createProject}
+            sx={{ mt: 3, ml: 1 }}
+            >
+            CREATE
+          </Button>
+        </Box>
       </Box>
     </Box>
   );

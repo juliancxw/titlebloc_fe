@@ -42,7 +42,11 @@
 }
 
 .channel-empty__first .channel-empty__user-name {
-  color: var(--primary-color);
+  color: #000;
+  text-decoration: underline;
+  text-decoration-thickness: 3px;
+  text-decoration-color: var(--primary-color);
+
 }
 
 .channel-empty__second {

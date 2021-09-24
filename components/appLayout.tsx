@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, FC } from 'react';
 import {
   useAuthUser,
   withAuthUser,
@@ -47,7 +47,7 @@ type LayoutProps = {
 const streamTheme = 'team light'; 
 
 
-const AppLayout: React.FC = ({children}: LayoutProps) => {
+const AppLayout: FC = ({children}: LayoutProps) => {
 
   // ---- States ----
   // Side Drawer State
@@ -55,6 +55,7 @@ const AppLayout: React.FC = ({children}: LayoutProps) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   // Stream Chat Client Initiation
   const [chatClient, setChatClient] = useState<StreamChat | null>(null);
+
 
   const AuthUser = useAuthUser()
   const userId = AuthUser.id
@@ -112,7 +113,7 @@ const AppLayout: React.FC = ({children}: LayoutProps) => {
             setMobileMode,
             mobileMenuOpen,
             setMobileMenuOpen,
-            userId
+            userId,
           }}/>
         </Box>
         <Box sx={{

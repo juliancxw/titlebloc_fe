@@ -7,7 +7,14 @@
   min-width:200px !important;
 } */
 
+:root {
+  --primary-color: #e9f65b;
+  --primary-color-alpha:#000000;
+}
 
+.str-chat__avatar {
+  color:black;
+}
 .str-chat-channel-list {
   height: auto !important;
   margin-bottom: 8px;
@@ -48,3 +55,11 @@
 @import url(chatStyles/pinnedMessageList.css);
 @import url(chatStyles/threadMessageInput.css);
 @import url(chatStyles/userList.css);
+
+@media screen and (max-width: 960px){
+  .str-chat-channel-list.team{
+    position:relative;
+    left:0px;
+    min-height: auto;
+  }
+}

@@ -48,8 +48,8 @@ const theme = createTheme({
         root:{
           "&.Mui-selected": {
             // Some CSS
-            backgroundColor: '#000',
-            color:'#fff',
+            backgroundColor: '#ffff8e',
+            color:'#000',
             "&:Hover":{
               backgroundColor: '#e9f65b'
             }

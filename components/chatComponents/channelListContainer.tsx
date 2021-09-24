@@ -1,8 +1,8 @@
 import { FC } from 'react'
-import { ChannelList, ChannelListProps, LoadMorePaginator, LoadMorePaginatorProps } from 'stream-chat-react';
+import { ChannelList } from 'stream-chat-react';
 import { ChannelListLayout } from './channelListLayout'
 import { ChannelListPreview } from './channelListPreview'
-import type { Channel, ChannelFilters, LiteralStringForUnion, ChannelSort } from 'stream-chat';
+import type { Channel, ChannelFilters,  ChannelSort } from 'stream-chat';
 import { Box } from '@mui/material'
 
 
@@ -26,6 +26,9 @@ const customChannelTeamFilter = (channels: Channel[]) => {
 const customChannelMessagingFilter = (channels: Channel[]) => {
   return channels.filter((channel) => channel.type === 'messaging');
 };
+const customChannelProjectFilter = (channels: Channel[]) => {
+  return channels.filter((channel) => channel.type === 'project');
+};
 export const ChannelListContainer: FC<Props> = (props) => {
 
   const { userId } = props;
@@ -33,6 +36,7 @@ export const ChannelListContainer: FC<Props> = (props) => {
   const filters: ChannelFilters[] = [
     { type: 'public', members: { $in: [userId] } },
     { type: 'messaging', members: { $in: [userId] } },
+    { type: 'project', members: { $in: [userId] } },
   ];
   const options = { state: true, watch: true, presence: true};
   const sort: ChannelSort<ChannelType> = { last_message_at: -1, updated_at: -1 };
@@ -45,16 +49,35 @@ export const ChannelListContainer: FC<Props> = (props) => {
         sort={sort}
         options={options}
         List={(listProps) => (
-          <ChannelListLayout {...listProps} type='team'/>
+          <ChannelListLayout {...listProps} type='public' />
         )}
         Preview={(previewProps) => (
           <ChannelListPreview
             {...previewProps}
-            type='team'
+            type='public'
+           
           />
         )}
-      /> 
-          <ChannelList
+      />
+      
+      <ChannelList
+        channelRenderFilterFn={customChannelProjectFilter}
+        filters={filters[2]}
+        sort={sort}
+        options={options}
+        setActiveChannelOnMount={false}
+        List={(listProps) => (
+          <ChannelListLayout {...listProps} type='project'/>
+        )}
+        Preview={(previewProps) => (
+          <ChannelListPreview
+            {...previewProps}
+            type='project'
+          />
+        )}
+      />
+      
+      <ChannelList
         channelRenderFilterFn={customChannelMessagingFilter}
         filters={filters[1]}
         sort={sort}

@@ -31,6 +31,7 @@ type Props = ChannelPreviewUIComponentProps & {
   type: string;
 };
 
+
 export const ChannelListPreview: FC<Props> = (props) => {
   const { channel, setActiveChannel, type } = props;
 
@@ -102,6 +103,38 @@ export const ChannelListPreview: FC<Props> = (props) => {
     );
   };
 
+  const ProjectPreview = () => {
+    const members = Object.values(channel.state.members).filter(
+      ({ user }) => user?.id !== client.userID,
+    );
+    console.log(channel.state)
+    const defaultName = 'Johnny Blaze';
+      const member = members[0];
+      return (
+        <>
+          <Avatar
+            image={member.user?.image}
+            name={channel.state._channel.data.projectType.match(/\b(\w)/g).join('')}
+            size={24}
+          />
+          <ListItemText>{channel.state._channel.data.projectSlug}</ListItemText>
+          <TeamTypingIndicator type='list' />
+        </>
+      );
+
+  };
+
+  const ChannelPreviewType = (type) => {
+    switch (type) {
+      case 'public' :
+        return (<ChannelPreview />)
+      case 'project' :
+        return (<ProjectPreview />)
+      case 'messaging' :
+        return (<DirectPreview />)
+    }
+  }
+
   return (
     <ListItem disablePadding>
       <Link href="/app">
@@ -113,7 +146,7 @@ export const ChannelListPreview: FC<Props> = (props) => {
         }
       }}
       >
-        {type === 'team' ? <ChannelPreview /> : <DirectPreview />}
+        {ChannelPreviewType(type)}
       </ListItemButton>
       </Link>
     </ListItem>

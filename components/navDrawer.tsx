@@ -1,22 +1,16 @@
 import { useState } from 'react';
 import {
-  Toolbar,
   Box,
   Drawer,
   List,
-  ListItem,
   ListItemButton,
   ListItemIcon,
   ListItemText,
   Divider,
-  Collapse,
-  Typography,
   useMediaQuery,
 } from '@mui/material'
-import { makeStyles, useTheme, Theme, createStyles } from '@mui/material/styles';
-import {  Mail as MailIcon,
-  MoveToInbox as InboxIcon,
-  Public as PublicIcon,
+import { useTheme } from '@mui/material/styles';
+import { 
   AssignmentIndOutlined as AssignmentIndOutlinedIcon,
   HomeWorkOutlined as HomeWorkOutlinedIcon,
   NextWeekOutlined as NextWeekOutlinedIcon,
@@ -25,7 +19,7 @@ import {  Mail as MailIcon,
   QuestionAnswerOutlined as QuestionAnswerOutlinedIcon,
   ExpandLess, ExpandMore,
 } from '@mui/icons-material/';
-import { ChannelList, ChannelListProps, LoadMorePaginator, LoadMorePaginatorProps, InfiniteScrollPaginator } from 'stream-chat-react';
+import { ChannelList, ChannelListProps } from 'stream-chat-react';
 import { ChannelSort } from 'stream-chat';
 import { ChannelListContainer } from './chatComponents/channelListContainer'
 
@@ -36,7 +30,6 @@ type Props = Omit<ChannelListProps, 'filters'> & {
   setMobileMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
   userId: string;
   filters: object;
-  Paginator: InfiniteScrollPaginatorProps;
 };
 
 
@@ -45,7 +38,7 @@ const drawerWidth = 240;
 
 
 
-export const NavDrawer = ({mobileMode, setMobileMode, userId, mobileMenuOpen, setMobileMenuOpen, }: Props) => {
+export const NavDrawer = ({mobileMode, setMobileMode, userId, mobileMenuOpen, setMobileMenuOpen }: Props) => {
 
 
 
@@ -93,30 +86,8 @@ export const NavDrawer = ({mobileMode, setMobileMode, userId, mobileMenuOpen, se
       </List>
       <Divider />
       <ChannelListContainer {...{
-        userId
+        userId,
       }}/>
-      {/* <List>
-        <ListItem button onClick={handleClick}>
-          <ListItemIcon><WorkOutlineOutlinedIcon/></ListItemIcon>
-          <ListItemText primary="Project Enquires" />
-          {open ? <ExpandLess /> : <ExpandMore />}
-        </ListItem>
-        <Collapse in={open} timeout="auto" unmountOnExit>
-         
-        </Collapse>
-        <ListItem button onClick={() => handleActiveClick("adsfasdf")} >
-          <ListItemIcon><NextWeekOutlinedIcon/></ListItemIcon>
-          <ListItemText primary="On-going Projects" />
-        </ListItem>
-        <ListItem button>
-          <ListItemIcon><ArchiveOutlinedIcon/></ListItemIcon>
-          <ListItemText primary="Project Archive" />
-        </ListItem>
-        <ListItem button>
-          <ListItemIcon><QuestionAnswerOutlinedIcon/></ListItemIcon>
-          <ListItemText primary="Direct Chats" />
-        </ListItem>
-      </List> */}
      </Box>
   )
 
@@ -132,7 +103,6 @@ export const NavDrawer = ({mobileMode, setMobileMode, userId, mobileMenuOpen, se
         aria-label="drawer"
       >
         <Drawer
-          
           variant="temporary"
           open={mobileMenuOpen}
           onClose={handleDrawerToggle}
@@ -145,7 +115,6 @@ export const NavDrawer = ({mobileMode, setMobileMode, userId, mobileMenuOpen, se
             '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
           }}
         >
-          
           {drawer}
         </Drawer>
       </Box>

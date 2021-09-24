@@ -6,6 +6,7 @@ import DateRangePicker, { DateRange } from '@mui/lab/DateRangePicker';
 import AdapterDateFns from '@mui/lab/AdapterMoment';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 
+
 type Props = {
   projectPeriod: DateRange<Date>;
   setProjectPeriod: React.Dispatch<React.SetStateAction<DateRange<Date>>>;
@@ -19,7 +20,6 @@ export default function ProjectDetails({projectPeriod, setProjectPeriod}:Props) 
 
   return (
     <Box mt={3}>
-     
       <DateRangePicker
         startText="Tartgeted Start Date"
         endText="Targeted End Date"
