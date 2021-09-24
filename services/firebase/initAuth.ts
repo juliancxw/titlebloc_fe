@@ -40,7 +40,7 @@ const initAuth = () => {
       sameSite: 'strict',
       secure: false, // set this to false in local (non-HTTPS) development
       signed: true,
-    },
+    }
   })
 }
 

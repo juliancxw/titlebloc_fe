@@ -52,9 +52,13 @@ const CreateProject = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      const auth = await getAuth();
-      const user = await signInWithEmailAndPassword(auth, email, password);
-      console.log(user)
+      const db = await getFirestore()
+      console.log(db)
+      await addDoc(collection(db, "projects"), {
+        firstName: firstName,
+        lastName: lastName,
+        username: username,
+      });
    
     }
     catch(error) {
