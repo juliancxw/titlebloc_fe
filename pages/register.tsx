@@ -1,19 +1,15 @@
 import { useEffect, useState, useCallback, Fragment } from 'react'
-import {Avatar, Snackbar, Button, IconButton, CssBaseline, TextField, InputAdornment, FormControlLabel, Checkbox, Link, Grid, Box, Typography, Container } from '@mui/material'
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import {Snackbar, Button, IconButton, CssBaseline, TextField, InputAdornment, Link, Grid, Box, Typography, Container } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close';
-import { createTheme, makeStyles } from '@mui/material/styles';
+import { createTheme} from '@mui/material/styles';
 import { getAuth, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
-import { getFirestore, doc, setDoc, getDoc, addDoc, collection, onSnapshot, query } from "firebase/firestore"
+import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore"
 import {
-  useAuthUser,
   withAuthUser,
-  withAuthUserTokenSSR,
   AuthAction,
 } from 'next-firebase-auth'
-import { usePrependedMessagesCount } from 'stream-chat-react';
-import debounce from "lodash.debounce"
-import { createImmediatelyInvokedArrowFunction } from 'typescript';
+import debounce  from 'lodash.debounce'
+
 
 
 

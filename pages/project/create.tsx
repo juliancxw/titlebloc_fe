@@ -1,4 +1,4 @@
-import { useState, Fragment, ChangeEvent } from 'react';
+import { useState, ChangeEvent } from 'react';
 import {
   Box,
   Typography,
@@ -15,7 +15,7 @@ import {
   withAuthUser,
   AuthAction,
 } from 'next-firebase-auth'
-import { getFirestore, doc, setDoc, getDoc, addDoc, collection, onSnapshot, query } from "firebase/firestore"
+import { getFirestore, addDoc, collection, } from "firebase/firestore"
 import moment from 'moment';
 import AppLayout from '../../components/appLayout'
 import ProjectType from '../../components/createProjectForms/projectType'

@@ -12,7 +12,6 @@ import DateFnsAdapter from '@mui/lab/AdapterMoment';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import 'stream-chat-react/dist/css/index.css';
 import '../styles/chatStyles.css'
-import { createTypeOperatorNode } from 'typescript';
 
 
 type NextPageWithLayout = NextPage & {

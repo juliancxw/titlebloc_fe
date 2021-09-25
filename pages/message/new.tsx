@@ -14,8 +14,6 @@ import {
   withAuthUser,
   AuthAction,
 } from 'next-firebase-auth'
-import { getFirestore, doc, setDoc, getDoc, addDoc, collection, onSnapshot, query } from "firebase/firestore"
-
 import AppLayout from '../../components/appLayout'
 import { UserList } from '../../components/chatComponents/userList';
 

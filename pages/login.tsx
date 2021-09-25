@@ -1,10 +1,7 @@
-import {Avatar, Button, CssBaseline, TextField, FormControlLabel, Checkbox, Link, Grid, Box, Typography, Container } from '@mui/material'
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import {getAuth, signInWithEmailAndPassword, signOut} from 'firebase/auth';
+import {Button, CssBaseline, TextField, Link, Grid, Box, Typography, Container } from '@mui/material'
+import {getAuth, signInWithEmailAndPassword} from 'firebase/auth';
 import {
-  useAuthUser,
   withAuthUser,
-  withAuthUserTokenSSR,
   AuthAction,
 } from 'next-firebase-auth'
 
