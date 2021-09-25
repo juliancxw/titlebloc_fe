@@ -162,7 +162,7 @@ export const AppHeader = ({mobileMode, mobileMenuOpen, setMobileMenuOpen}: drawe
     >
       <MenuItem>
         <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="error">
+          <Badge badgeContent={4} sx={{backgroundColor:"#e9f65b"}}>
             <MailIcon />
           </Badge>
         </IconButton>
@@ -174,7 +174,7 @@ export const AppHeader = ({mobileMode, mobileMenuOpen, setMobileMenuOpen}: drawe
           aria-label="show 17 new notifications"
           color="inherit"
         >
-          <Badge badgeContent={17} color="error">
+          <Badge badgeContent={17} color="primary">
             <NotificationsIcon />
           </Badge>
         </IconButton>
