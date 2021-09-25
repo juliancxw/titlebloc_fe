@@ -3,12 +3,19 @@ import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
 
-// Import the useAuthStateHook
-import { useAuthState } from "react-firebase-hooks/auth";
+
+import {
+  withAuthUser,
+  AuthAction,
+} from 'next-firebase-auth'
+
+const Home = () => {
 
 
-export default function Home() {
-
-
-  return <div>Hello!</div>;
+  return <div></div>;
 }
+
+export default  withAuthUser({
+  whenUnauthedAfterInit: AuthAction.REDIRECT_TO_LOGIN,
+  whenAuthed: AuthAction.RENDER
+})(Home)
