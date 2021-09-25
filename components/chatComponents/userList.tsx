@@ -112,7 +112,7 @@ export const UserList: React.FC<Props> = (props) => {
         const response = await client.queryUsers(
           { id: { $ne: client.userID || '' }, ...filters },
           { id: 1 },
-          { limit: 8 },
+          // { limit: 8 },
         );
 
         if (response.users.length) {
