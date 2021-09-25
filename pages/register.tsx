@@ -151,9 +151,9 @@ const Register = () => {
           alignItems: 'center',
         }}
       >
-        <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-          <LockOutlinedIcon />
-        </Avatar>
+        <Box mb={4}>
+            <img src="/titlebloc01.svg" height='120px'/>
+        </Box>
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>

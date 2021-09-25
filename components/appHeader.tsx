@@ -1,3 +1,5 @@
+import Image from 'next/image'
+import logo from '../public/titlebloc02.svg'
 import { useState } from 'react';
 import { styled, alpha, useTheme } from '@mui/material/styles';
 import { 
@@ -210,6 +212,9 @@ export const AppHeader = ({mobileMode, mobileMenuOpen, setMobileMenuOpen}: drawe
             </IconButton>
             : <div />
           }
+          <Box mr={1}>
+            <Image src={logo} height="30px" width="30px"/>
+          </Box>
           <Typography
             variant="h6"
             noWrap
