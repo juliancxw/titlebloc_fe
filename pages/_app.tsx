@@ -42,6 +42,10 @@ const MyApp: FC<AppPropsWithLayout> = ({ Component, pageProps }: AppPropsWithLay
   return (
     <ThemeProvider theme={theme}>
       <LocalizationProvider dateAdapter={DateFnsAdapter}>
+        <Head>
+          <title>TITLEBLOC</title>
+          <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        </Head>
         <CssBaseline />
         { getLayout(<Component {...pageProps} />)}
      </LocalizationProvider>
