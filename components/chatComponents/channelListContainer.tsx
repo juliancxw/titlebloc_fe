@@ -3,7 +3,7 @@ import { ChannelList } from 'stream-chat-react';
 import { ChannelListLayout } from './channelListLayout'
 import { ChannelListPreview } from './channelListPreview'
 import type { Channel, ChannelFilters,  ChannelSort } from 'stream-chat';
-import { Box } from '@mui/material'
+import { Box, Skeleton, ListItem } from '@mui/material'
 
 
 import type {
@@ -58,6 +58,7 @@ export const ChannelListContainer: FC<Props> = (props) => {
            
           />
         )}
+        EmptyStateIndicator={()=>{return(<ListItem><Skeleton variant="circular" width={30} height={30} sx={{mr:"10px"}}/><Skeleton variant="text" width="80%"/></ListItem>)}} 
       />
       
       <ChannelList
@@ -75,6 +76,7 @@ export const ChannelListContainer: FC<Props> = (props) => {
             type='project'
           />
         )}
+        EmptyStateIndicator={()=>{return(<ListItem><Skeleton variant="circular" width={30} height={30} sx={{mr:"10px"}}/><Skeleton variant="text" width="80%"/></ListItem>)}} 
       />
       
       <ChannelList
@@ -92,6 +94,7 @@ export const ChannelListContainer: FC<Props> = (props) => {
             type='messaging'
           />
         )}
+        EmptyStateIndicator={()=>{return(<ListItem><Skeleton variant="circular" width={30} height={30} sx={{mr:"10px"}}/><Skeleton variant="text" width="80%"/></ListItem>)}} 
       /> 
     </Box>
   )
